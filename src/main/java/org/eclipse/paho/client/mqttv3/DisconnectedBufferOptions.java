@@ -51,7 +51,6 @@ public class DisconnectedBufferOptions {
 	 * More information about these values can be found in the setter methods.
 	 */
 	public DisconnectedBufferOptions() {
-		// Do Nothing.
 	}
 
 	public int getBufferSize() {

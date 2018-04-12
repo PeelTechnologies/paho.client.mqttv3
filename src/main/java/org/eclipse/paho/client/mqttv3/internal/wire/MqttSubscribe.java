@@ -36,9 +36,8 @@ public class MqttSubscribe extends MqttWireMessage {
 	/**
 	 * Constructor for an on the wire MQTT subscribe message
 	 * 
-	 * @param info the info byte
-	 * @param data the data byte array
-	 * @throws IOException if an exception occurs whilst reading the input stream
+	 * @param info
+	 * @param data
 	 */
 	public MqttSubscribe(byte info, byte[] data) throws IOException {
 		super(MqttWireMessage.MESSAGE_TYPE_SUBSCRIBE);
@@ -74,7 +73,6 @@ public class MqttSubscribe extends MqttWireMessage {
 		if (names.length != qos.length) {
 		throw new IllegalArgumentException();
 		}
-		this.count = names.length;
 		
 		for (int i=0;i<qos.length;i++) {
 			MqttMessage.validateQos(qos[i]);

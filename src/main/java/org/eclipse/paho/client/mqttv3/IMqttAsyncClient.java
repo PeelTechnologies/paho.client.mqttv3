@@ -24,7 +24,6 @@ package org.eclipse.paho.client.mqttv3;
  * <p>
  * It provides applications a simple programming interface to all features of the MQTT version 3.1
  * specification including:
- * </p>
  * <ul>
  * <li>connect
  * <li>publish
@@ -32,8 +31,9 @@ package org.eclipse.paho.client.mqttv3;
  * <li>unsubscribe
  * <li>disconnect
  * </ul>
+ * </p>
  * <p>
- * There are two styles of MQTT client, this one and {@link IMqttClient}.</p>
+ * There are two styles of MQTT client, this one and {@link IMqttClient}.
  * <ul>
  * <li>IMqttAsyncClient provides a set of non-blocking methods that return control to the
  * invoking application after initial validation of parameters and state. The main processing is
@@ -51,6 +51,7 @@ package org.eclipse.paho.client.mqttv3;
  * versions of the MQTT client. In most circumstances it is recommended to use IMqttAsyncClient
  * based clients which allow an application to mix both non-blocking and blocking calls. </li>
  * </ul>
+ * </p>
  * <p>
  * An application is not restricted to using one style if an IMqttAsyncClient based client is used
  * as both blocking and non-blocking methods can be used in the same application. If an IMqttClient
@@ -60,38 +61,40 @@ package org.eclipse.paho.client.mqttv3;
  * <p>There are two forms of non-blocking method:
  * <ol>
  *   <li>
- *     <pre>
+ *     <code><pre>
  *     IMqttToken token = asyncClient.method(parms)
- *     </pre>
+ *     </pre></code>
  *     <p>In this form the method returns a token that can be used to track the
  *     progress of the action (method). The method provides a waitForCompletion()
  *     method that once invoked will block until the action completes. Once
  *     completed there are method on the token that can be used to check if the
  *     action completed successfully or not. For example
- * 	   to wait until a connect completes:</p>
- *     <pre>
+ * 	   to wait until a connect completes:
+ *     <code><pre>
  *      IMqttToken conToken;
  *   	conToken = asyncClient.client.connect(conToken);
  *     ... do some work...
  *   	conToken.waitForCompletion();
- *     </pre>
- *     <p>To turn a method into a blocking invocation the following form can be used:</p>
- *     <pre>
+ *     </pre></code>
+ *	   </p>
+ *     <p>To turn a method into a blocking invocation the following form can be used:
+ *     <code><pre>
  *     IMqttToken token;
  *     token = asyncClient.method(parms).waitForCompletion();
- *     </pre>
+ *     </pre></code>
+
  *   </li>
  *
  *   <li>
- *     <pre>
+ *     <code><pre>
  *     IMqttToken token method(parms, Object userContext, IMqttActionListener callback)
- *     </pre>
+ *     </pre></code>
  *     <p>In this form a callback is registered with the method. The callback will be
  *     notified when the action succeeds or fails. The callback is invoked on the thread
  *     managed by the MQTT client so it is important that processing is minimised in the
  *     callback. If not the operation of the MQTT client will be inhibited. For example
- *     to be notified (called back) when a connect completes:</p>
- *     <pre>
+ *     to be notified (called back) when a connect completes:
+ *     <code><pre>
  *     	IMqttToken conToken;
  *	    conToken = asyncClient.connect("some context",new new MqttAsyncActionListener() {
  *			public void onSuccess(IMqttToken asyncActionToken) {
@@ -102,8 +105,8 @@ package org.eclipse.paho.client.mqttv3;
  *				log ("connect failed" +exception);
  *			}
  *		  });
- *      </pre>
- *	    <p>An optional context object can be passed into the method which will then be made
+ *      </pre></code>
+ *	    An optional context object can be passed into the method which will then be made
  *      available in the callback. The context is stored by the MQTT client) in the token
  *      which is then returned to the invoker. The token is provided to the callback methods
  *      where the context can then be accessed.
@@ -171,11 +174,11 @@ public interface IMqttAsyncClient {
 	 * </p>
 	 * <p>The method returns control before the connect completes. Completion can
 	 * be tracked by:
-	 * </p>
 	 * <ul>
 	 * <li>Waiting on the returned token {@link IMqttToken#waitForCompletion()} or</li>
 	 * <li>Passing in a callback {@link IMqttActionListener}</li>
 	 * </ul>
+	 * </p>
 	 *
 	 * @param options a set of connection parameters that override the defaults.
 	 * @param userContext optional object for used to pass context to the callback. Use
@@ -256,11 +259,11 @@ public interface IMqttAsyncClient {
 	 * <p>This method must not be called from inside {@link MqttCallback} methods.</p>
 	 * <p>The method returns control before the disconnect completes. Completion can
 	 * be tracked by:
-	 * </p>
 	 * <ul>
 	 * <li>Waiting on the returned token {@link IMqttToken#waitForCompletion()} or</li>
 	 * <li>Passing in a callback {@link IMqttActionListener}</li>
 	 * </ul>
+	 * </p>
 	 *
 	 * @param quiesceTimeout the amount of time in milliseconds to allow for
 	 * existing work to finish before disconnecting.  A value of zero or less
@@ -416,7 +419,6 @@ public interface IMqttAsyncClient {
 	 * client and will be delivered on a background thread.
 	 * In the event the connection fails or the client stops. Messages will be delivered to the
 	 * requested quality of service once the connection is re-established to the server on condition that:
-	 * </p>
 	 * <ul>
 	 * <li>The connection is re-established with the same clientID
 	 * <li>The original connection was made with (@link MqttConnectOptions#setCleanSession(boolean)}
@@ -425,6 +427,7 @@ public interface IMqttAsyncClient {
 	 * set to false
 	 * <li>Depending when the failure occurs QoS 0 messages may not be delivered.
 	 * </ul>
+	 * </p>
 	 *
 	 * <p>When building an application,
 	 * the design of the topic tree should take into account the following principles
@@ -439,22 +442,22 @@ public interface IMqttAsyncClient {
 	 * 	<li>A leading "/" creates a distinct topic.  For example, <em>/finance</em> is
 	 * 	different from <em>finance</em>. <em>/finance</em> matches "+/+" and "/+", but
 	 * 	not "+".</li>
-	 * 	<li>Do not include the null character (Unicode <pre>\x0000</pre>) in
+	 * 	<li>Do not include the null character (Unicode <samp class="codeph">\x0000</samp>) in
 	 * 	any topic.</li>
 	 * </ul>
 	 *
 	 * <p>The following principles apply to the construction and content of a topic
 	 * tree:</p>
+	 *
 	 * <ul>
 	 * 	<li>The length is limited to 64k but within that there are no limits to the
 	 * 	number of levels in a topic tree.</li>
 	 * 	<li>There can be any number of root nodes; that is, there can be any number
 	 * 	of topic trees.</li>
 	 * 	</ul>
-	 * 
+	 * </p>
 	 * <p>The method returns control before the publish completes. Completion can
 	 * be tracked by:
-	 * </p>
 	 * <ul>
 	 * <li>Setting an {@link IMqttAsyncClient#setCallback(MqttCallback)} where the
 	 * {@link MqttCallback#deliveryComplete(IMqttDeliveryToken)}
@@ -462,6 +465,7 @@ public interface IMqttAsyncClient {
 	 * <li>Waiting on the returned token {@link MqttToken#waitForCompletion()} or</li>
 	 * <li>Passing in a callback {@link IMqttActionListener} to this method</li>
 	 * </ul>
+	 * </p>
 	 *
 	 * @param topic  to deliver the message to, for example "finance/stock/ibm".
 	 * @param message to deliver to the server
@@ -547,25 +551,23 @@ public interface IMqttAsyncClient {
 	 * <p>
 	 * If (@link MqttConnectOptions#setCleanSession(boolean)} was set to true
 	 * when when connecting to the server then the subscription remains in place
-	 * until either:</p>
-	 * 
+	 * until either:
 	 * <ul>
 	 * <li>The client disconnects</li>
 	 * <li>An unsubscribe method is called to un-subscribe the topic</li>
-	 * </ul>
-	 * 
+	 * </li>
+	 * </p>
 	 * <p>
 	 * If (@link MqttConnectOptions#setCleanSession(boolean)} was set to false
 	 * when connecting to the server then the subscription remains in place
-	 * until either:</p>
+	 * until either:
 	 * <ul>
 	 * <li>An unsubscribe method is called to unsubscribe the topic</li>
-	 * <li>The next time the client connects with cleanSession set to true</li>
-	 * </ul>
-	 * <p>
+	 * <li>The next time the client connects with cleanSession set to true</ul>
+	 * </li>
 	 * With cleanSession set to false the MQTT server will store messages on
 	 * behalf of the client when the client is not connected. The next time the
-	 * client connects with the <b>same client ID</b> the server will
+	 * client connects with the <bold>same client ID</bold> the server will
 	 * deliver the stored messages to the client.
 	 * </p>
 	 *
@@ -587,12 +589,9 @@ public interface IMqttAsyncClient {
 	 * 	<dd><p>The number sign (#) is a wildcard character that matches
 	 * 	any number of levels within a topic. For example, if you subscribe to
 	 *  <span><span class="filepath">finance/stock/ibm/#</span></span>, you receive
-	 * 	messages on these topics:</p>
-	 *  <ul>
-	 *  <li>finance/stock/ibm</li>
-	 *  <li>finance/stock/ibm/closingprice</li>
-	 *  <li>finance/stock/ibm/currentprice</li>
-	 *  </ul>
+	 * 	messages on these topics:
+	 *  <pre>   finance/stock/ibm<br />   finance/stock/ibm/closingprice<br />   finance/stock/ibm/currentprice</pre>
+	 *  </p>
 	 *  <p>The multi-level wildcard
 	 *  can represent zero or more levels. Therefore, <em>finance/#</em> can also match
 	 * 	the singular <em>finance</em>, where <em>#</em> represents zero levels. The topic
@@ -623,12 +622,14 @@ public interface IMqttAsyncClient {
 	 * 	For example, <em>finance/+</em> and <em>finance/+/ibm</em> are both valid.</span></p>
 	 * 	</dd>
 	 * </dl>
+	 * </p>
 	 * <p>The method returns control before the subscribe completes. Completion can
-	 * be tracked by:</p>
+	 * be tracked by:
 	 * <ul>
 	 * <li>Waiting on the supplied token {@link MqttToken#waitForCompletion()} or</li>
 	 * <li>Passing in a callback {@link IMqttActionListener} to this method</li>
 	 * </ul>
+	 * </p>
 	 *
 	 * @param topicFilters one or more topics to subscribe to, which can include wildcards
 	 * @param qos the maximum quality of service to subscribe each topic at.Messages
@@ -789,12 +790,11 @@ public interface IMqttAsyncClient {
 	 * </p>
 	 * <p>The method returns control before the unsubscribe completes. Completion can
 	 * be tracked by:
-	 * </p>
-	 * 
 	 * <ul>
 	 * <li>Waiting on the returned token {@link MqttToken#waitForCompletion()} or</li>
 	 * <li>Passing in a callback {@link IMqttActionListener} to this method</li>
 	 * </ul>
+	 * </p>
 	 *
 	 * @param topicFilters one or more topics to unsubscribe from. Each topicFilter
 	 * must match one specified on an earlier subscribe.
@@ -814,12 +814,12 @@ public interface IMqttAsyncClient {
 	 * Sets a callback listener to use for events that happen asynchronously.
 	 * <p>There are a number of events that the listener will be notified about.
 	 * These include:
-	 * </p>
 	 * <ul>
 	 * <li>A new message has arrived and is ready to be processed</li>
 	 * <li>The connection to the server has been lost</li>
 	 * <li>Delivery of a message to the server has completed</li>
 	 * </ul>
+	 * </p>
 	 * <p>Other events that track the progress of an individual operation such
 	 * as connect and subscribe can be tracked using the {@link MqttToken} returned from
 	 * each non-blocking method or using setting a {@link IMqttActionListener} on the
@@ -852,7 +852,7 @@ public interface IMqttAsyncClient {
 	 * sent.  The default behaviour, when manualAcks is false, is to send the MQTT
 	 * acknowledgements automatically at the successful completion of the messageArrived
 	 * callback method.
-	 * @param manualAcks if set to true MQTT acknowledgements are not sent
+	 * @param manualAcks
 	 */
 	public void setManualAcks(boolean manualAcks);
 	
@@ -861,7 +861,7 @@ public interface IMqttAsyncClient {
 	 * This will cause the MQTT acknowledgement to be sent to the server.
 	 * @param messageId the MQTT message id to be acknowledged
 	 * @param qos the MQTT QoS of the message to be acknowledged
-	 * @throws MqttException if there was a problem sending the acknowledgement
+	 * @throws MqttException
 	 */
 	public void messageArrivedComplete(int messageId, int qos) throws MqttException;
 

@@ -33,7 +33,6 @@ public class MqttUnsubscribe extends MqttWireMessage {
 
 	/**
 	 * Constructs an MqttUnsubscribe
-	 * @param names The topics to unsubscribe from
 	 */
 	public MqttUnsubscribe(String[] names) {
 		super(MqttWireMessage.MESSAGE_TYPE_UNSUBSCRIBE);
@@ -43,9 +42,9 @@ public class MqttUnsubscribe extends MqttWireMessage {
 	/**
 	 * Constructor for an on the wire MQTT un-subscribe message
 	 * 
-	 * @param info the info byte
-	 * @param data the data byte array
-	 * @throws IOException if an exception occurs whilst reading the input stream
+	 * @param info
+	 * @param data
+	 * @throws IOException
 	 */
 	public MqttUnsubscribe(byte info, byte[] data) throws IOException {
 		super(MqttWireMessage.MESSAGE_TYPE_UNSUBSCRIBE);

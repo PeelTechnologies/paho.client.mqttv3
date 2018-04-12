@@ -65,9 +65,6 @@ public class MqttOutputStream extends OutputStream {
 
 	/**
 	 * Writes an <code>MqttWireMessage</code> to the stream.
-	 * @param message The {@link MqttWireMessage} to send
-	 * @throws IOException if an exception is thrown when writing to the output stream.
-	 * @throws MqttException if an exception is thrown when getting the header or payload
 	 */
 	public void write(MqttWireMessage message) throws IOException, MqttException {
 		final String methodName = "write";
@@ -87,8 +84,8 @@ public class MqttOutputStream extends OutputStream {
         	clientState.notifySentBytes(length);
         }		
 		
-		// @TRACE 529= sent {0}
-    	log.fine(CLASS_NAME, methodName, "529", new Object[]{message});
+		// @TRACE 500= sent {0}
+    	log.fine(CLASS_NAME, methodName, "500", new Object[]{message});
 	}
 }
 

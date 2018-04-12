@@ -46,7 +46,21 @@ public class WebSocketSecureNetworkModule extends SSLNetworkModule{
 	 * This allows us to encode the MQTT payload into a WebSocket
 	 *  Frame before passing it through to the real socket.
 	 */
-	private ByteArrayOutputStream outputStream = new ExtendedByteArrayOutputStream(this);
+	private ByteArrayOutputStream outputStream = new ByteArrayOutputStream(){
+		
+		public void flush() throws IOException {
+			final ByteBuffer byteBuffer;
+			synchronized (this) {
+				byteBuffer = ByteBuffer.wrap(toByteArray());
+				reset();
+			}
+			WebSocketFrame frame = new WebSocketFrame((byte)0x02, true, byteBuffer.array());
+			byte[] rawFrame = frame.encodeFrame();
+			getSocketOutputStream().write(rawFrame);
+			getSocketOutputStream().flush();
+			
+		}
+	};
 
 	public WebSocketSecureNetworkModule(SSLSocketFactory factory, String uri, String host, int port, String clientId) {
 		super(factory, host, port, clientId);
@@ -66,11 +80,11 @@ public class WebSocketSecureNetworkModule extends SSLNetworkModule{
 
 	}
 
-	OutputStream getSocketOutputStream() throws IOException {
+	private OutputStream getSocketOutputStream() throws IOException {
 		return super.getOutputStream();
 	}
 	
-	InputStream getSocketInputStream() throws IOException {
+	private InputStream getSocketInputStream() throws IOException {
 		return super.getInputStream();
 	}
 	
@@ -98,8 +112,6 @@ public class WebSocketSecureNetworkModule extends SSLNetworkModule{
 	public String getServerURI() {
 		return "wss://" + host + ":" + port;
 	}
-	
-	
 
 
 }

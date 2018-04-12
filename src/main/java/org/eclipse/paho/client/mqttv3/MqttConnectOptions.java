@@ -20,7 +20,6 @@ package org.eclipse.paho.client.mqttv3;
 import java.util.Properties;
 
 import javax.net.SocketFactory;
-import javax.net.ssl.HostnameVerifier;
 
 import org.eclipse.paho.client.mqttv3.util.Debug;
 
@@ -51,13 +50,7 @@ public class MqttConnectOptions {
 	 * The default MqttVersion is 3.1.1 first, dropping back to 3.1 if that fails
 	 */
 	public static final int MQTT_VERSION_DEFAULT = 0;
-	/**
-	 * Mqtt Version 3.1
-	 */
 	public static final int MQTT_VERSION_3_1 = 3;
-	/**
-	 * Mqtt Version 3.1.1
-	 */
 	public static final int MQTT_VERSION_3_1_1 = 4;
 
 	protected static final int URI_TYPE_TCP = 0;
@@ -74,7 +67,6 @@ public class MqttConnectOptions {
 	private char[] password;
 	private SocketFactory socketFactory;
 	private Properties sslClientProps = null;
-	private HostnameVerifier sslHostnameVerifier = null;
 	private boolean cleanSession = CLEAN_SESSION_DEFAULT;
 	private int connectionTimeout = CONNECTION_TIMEOUT_DEFAULT;
 	private String[] serverURIs = null;
@@ -109,7 +101,6 @@ public class MqttConnectOptions {
 
 	/**
 	 * Sets the password to use for the connection.
-	 * @param password A Char Array of the password
 	 */
 	public void setPassword(char[] password) {
 		this.password = password;
@@ -125,7 +116,6 @@ public class MqttConnectOptions {
 
 	/**
 	 * Sets the user name to use for the connection.
-	 * @param userName The Username as a String
 	 * @throws IllegalArgumentException if the user name is blank or only
 	 * contains whitespace characters.
 	 */
@@ -183,11 +173,6 @@ public class MqttConnectOptions {
 
 	/**
 	 * Sets up the will information, based on the supplied parameters.
-	 * 
-	 * @param topic the topic to send the LWT message to
-	 * @param msg the {@link MqttMessage} to send
-	 * @param qos the QoS Level to send the message at
-	 * @param retained whether the message should be retained or not
 	 */
 	protected void setWill(String topic, MqttMessage msg, int qos, boolean retained) {
 		willDestination = topic;
@@ -229,8 +214,7 @@ public class MqttConnectOptions {
 	 * A value of 0 disables keepalive processing in the client.
 	 * <p>The default value is 60 seconds</p>
 	 *
-	 * @param keepAliveInterval the interval, measured in seconds, must be &gt;= 0.
-	 * @throws IllegalArgumentException if the keepAliveInterval was invalid
+	 * @param keepAliveInterval the interval, measured in seconds, must be >= 0.
 	 */
 	public void setKeepAliveInterval(int keepAliveInterval)throws IllegalArgumentException {
 		if (keepAliveInterval <0 ) {
@@ -253,7 +237,7 @@ public class MqttConnectOptions {
      * Sets the "max inflight". 
      * please increase this value in a high traffic environment.
      * <p>The default value is 10</p>
-     * @param maxInflight the number of maxInfligt messages
+     * @param maxInflight
      */
     public void setMaxInflight(int maxInflight) {
         if (maxInflight < 0) {
@@ -278,7 +262,7 @@ public class MqttConnectOptions {
 	 * The default timeout is 30 seconds.
 	 * A value of 0 disables timeout processing meaning the client will wait until the
 	 * network connection is made successfully or fails.
-	 * @param connectionTimeout the timeout value, measured in seconds. It must be &gt;0;
+	 * @param connectionTimeout the timeout value, measured in seconds. It must be >0;
 	 */
 	public void setConnectionTimeout(int connectionTimeout) {
 		if (connectionTimeout <0 ) {
@@ -290,7 +274,6 @@ public class MqttConnectOptions {
 	/**
 	 * Returns the socket factory that will be used when connecting, or
 	 * <code>null</code> if one has not been set.
-	 * @return The Socket Factory
 	 */
 	public SocketFactory getSocketFactory() {
 		return socketFactory;
@@ -336,8 +319,7 @@ public class MqttConnectOptions {
 	}
 
 	/**
-	 * Sets the SSL properties for the connection.
-	 * <p>Note that these
+	 * Sets the SSL properties for the connection.  Note that these
 	 * properties are only valid if an implementation of the Java
 	 * Secure Socket Extensions (JSSE) is available.  These properties are
 	 * <em>not</em> used if a SocketFactory has been set using
@@ -404,31 +386,9 @@ public class MqttConnectOptions {
 	 * "PKIX" or "IBMJ9X509".
 	 * </dd>
 	 * </dl>
-	 * @param props The SSL {@link Properties}
 	 */
 	public void setSSLProperties(Properties props) {
 		this.sslClientProps = props;
-	}
-
-	/**
-     * Returns the HostnameVerifier for the SSL connection.
-     * @return the HostnameVerifier for the SSL connection
-     */
-	public HostnameVerifier getSSLHostnameVerifier() {
-	    return sslHostnameVerifier;
-	}
-
-    /**
-     * Sets the HostnameVerifier for the SSL connection. Note that it will be
-     * used after handshake on a connection and you should do actions by
-     * yourserlf when hostname is verified error.
-     * <p>
-     * There is no default HostnameVerifier
-     * </p>
-     * @param hostnameVerifier the {@link HostnameVerifier}
-     */
-	public void setSSLHostnameVerifier(HostnameVerifier hostnameVerifier) {
-	    this.sslHostnameVerifier = hostnameVerifier;
 	}
 
 	/**
@@ -449,15 +409,13 @@ public class MqttConnectOptions {
 	 * the specified QOS even if the client, server or connection are restarted.
 	 * <li> The server will treat a subscription as durable.
 	 * </ul>
-	 * <li>If set to true the client and server will not maintain state across
+	 * <lI>If set to true the client and server will not maintain state across
 	 * restarts of the client, the server or the connection. This means
 	 * <ul>
 	 * <li>Message delivery to the specified QOS cannot be maintained if the
 	 * client, server or connection are restarted
-	 * <li>The server will treat a subscription as non-durable
+	 * <lI>The server will treat a subscription as non-durable
 	 * </ul>
-	 * </ul>
-	 * @param cleanSession Set to True to enable cleanSession
  	 */
 	public void setCleanSession(boolean cleanSession) {
 		this.cleanSession = cleanSession;
@@ -500,15 +458,16 @@ public class MqttConnectOptions {
 	 * <p>Some MQTT servers support a high availability feature where two or more
 	 * "equal" MQTT servers share state. An MQTT client can connect to any of the "equal"
 	 * servers and be assured that messages are reliably delivered and durable subscriptions
-	 * are maintained no matter which server the client connects to.</p>
+	 * are maintained no matter which server the client connects to.
 	 * <p>The cleansession flag must be set to false if durable subscriptions and/or reliable
-	 * message delivery is required.</p></li>
+	 * message delivery is required.
 	 * <li>Hunt List
 	 * <p>A set of servers may be specified that are not "equal" (as in the high availability
 	 * option). As no state is shared across the servers reliable message delivery and
 	 * durable subscriptions are not valid. The cleansession flag must be set to true if the
-	 * hunt list mode is used</p></li>
+	 * hunt list mode is used
 	 * </ol>
+	 * </p>
 	 * @param array of serverURIs
 	 */
 	public void setServerURIs(String[] array) {
@@ -520,32 +479,30 @@ public class MqttConnectOptions {
 
 	/**
 	 * Validate a URI
-	 * @param srvURI The Server URI
+	 * @param srvURI
 	 * @return the URI type
 	 */
-	public static int validateURI(String srvURI) {
+
+	protected static int validateURI(String srvURI) {
 		try {
 			URI vURI = new URI(srvURI);
-			if ("ws".equals(vURI.getScheme())){
+			if (vURI.getScheme().equals("ws")){
 				return URI_TYPE_WS;
 			}
-			else if ("wss".equals(vURI.getScheme())) {
+			else if (vURI.getScheme().equals("wss")) {
 				return URI_TYPE_WSS;
 			}
 
-			if ((vURI.getPath() == null) || vURI.getPath().isEmpty()) {
-				// No op path must be empty
-			}
-			else {
+			if (!vURI.getPath().equals("")) {
 				throw new IllegalArgumentException(srvURI);
-			} 
-			if ("tcp".equals(vURI.getScheme())) {
+			}
+			if (vURI.getScheme().equals("tcp")) {
 				return URI_TYPE_TCP;
 			}
-			else if ("ssl".equals(vURI.getScheme())) {
+			else if (vURI.getScheme().equals("ssl")) {
 				return URI_TYPE_SSL;
 			}
-			else if ("local".equals(vURI.getScheme())) {
+			else if (vURI.getScheme().equals("local")) {
 				return URI_TYPE_LOCAL;
 			}
 			else {
@@ -564,7 +521,6 @@ public class MqttConnectOptions {
 	 * by using the MQTT_VERSION_3_1_1 or MQTT_VERSION_3_1 options respectively.
 	 *
 	 * @param MqttVersion the version of the MQTT protocol.
-	 * @throws IllegalArgumentException If the MqttVersion supplied is invalid
 	 */
 	public void setMqttVersion(int MqttVersion)throws IllegalArgumentException {
 		if (MqttVersion != MQTT_VERSION_DEFAULT && 
@@ -595,16 +551,13 @@ public class MqttConnectOptions {
 	 *  it attempts to reconnect, for every failed reconnect attempt, the delay will double
 	 *  until it is at 2 minutes at which point the delay will stay at 2 minutes.</li>
 	 * </ul>
-	 * @param automaticReconnect If set to True, Automatic Reconnect will be enabled
+	 * @param automaticReconnect
 	 */
 	public void setAutomaticReconnect(boolean automaticReconnect) {
 		this.automaticReconnect = automaticReconnect;
 	}
 	
 
-	/**
-	 * @return The Debug Properties
-	 */
 	public Properties getDebug() {
 		final String strNull="null";
 		Properties p = new Properties();

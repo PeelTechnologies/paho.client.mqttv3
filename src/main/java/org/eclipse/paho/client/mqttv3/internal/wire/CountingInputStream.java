@@ -28,7 +28,6 @@ public class CountingInputStream extends InputStream {
 	/**
 	 * Constructs a new <code>CountingInputStream</code> wrapping the supplied
 	 * input stream.
-	 * @param in The {@link InputStream}
 	 */
 	public CountingInputStream(InputStream in) {
 		this.in = in;
@@ -44,7 +43,7 @@ public class CountingInputStream extends InputStream {
 	}
 
 	/**
-	 * @return  the number of bytes read since the last reset.
+	 * Returns the number of bytes read since the last reset.
 	 */
 	public int getCounter() {
 		return counter;

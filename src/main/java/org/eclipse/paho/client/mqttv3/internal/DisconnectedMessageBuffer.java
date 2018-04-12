@@ -45,9 +45,8 @@ public class DisconnectedMessageBuffer implements Runnable {
 	 * then the 0th item in the buffer will be deleted and the
 	 * new message will be added. If it is not enabled then an
 	 * MqttException will be thrown.
-	 * @param message the {@link MqttWireMessage} that will be buffered
-	 * @param token the associated {@link MqttToken}
-	 * @throws MqttException if the Buffer is full
+	 * @param message
+	 * @throws MqttException
 	 */
 	public void putMessage(MqttWireMessage message, MqttToken token) throws MqttException{
 		BufferedMessage bufferedMessage = new BufferedMessage(message, token);
@@ -65,8 +64,9 @@ public class DisconnectedMessageBuffer implements Runnable {
 	
 	/**
 	 * Retrieves a message from the buffer at the given index.
-	 * @param messageIndex the index of the message to be retrieved in the buffer
-	 * @return the {@link BufferedMessage}
+	 * @param messageIndex
+	 * @return
+	 * @throws MqttException
 	 */
 	public BufferedMessage getMessage(int messageIndex){
 		synchronized (bufLock) {
@@ -77,7 +77,8 @@ public class DisconnectedMessageBuffer implements Runnable {
 	
 	/**
 	 * Removes a message from the buffer
-	 * @param messageIndex the index of the message to be deleted in the buffer
+	 * @param messageIndex
+	 * @throws MqttException
 	 */
 	public void deleteMessage(int messageIndex){
 		synchronized (bufLock) {
@@ -87,7 +88,8 @@ public class DisconnectedMessageBuffer implements Runnable {
 	
 	/**
 	 * Returns the number of messages currently in the buffer
-	 * @return The count of messages in the buffer
+	 * @return
+	 * @throws MqttException
 	 */
 	public int getMessageCount() {
 		synchronized (bufLock) {
@@ -119,10 +121,6 @@ public class DisconnectedMessageBuffer implements Runnable {
 
 	public void setPublishCallback(IDisconnectedBufferCallback callback) {
 		this.callback = callback;
-	}
-	
-	public boolean isPersistBuffer(){
-		return bufferOpts.isPersistBuffer();
 	}
 
 }

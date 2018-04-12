@@ -26,7 +26,8 @@ public final class Strings {
 	 * Checks if the CharSequence equals any character in the given set of characters.
 	 * 
 	 * @param cs the CharSequence to check
-	 * @param strs the set of characters to check against
+	 * @param first the first CharSequence
+	 * @param rest the rest CharSequence
 	 * @return true if equals any
 	 */
 	public static boolean equalsAny(CharSequence cs, CharSequence[] strs) {
@@ -95,7 +96,6 @@ public final class Strings {
 		}
 		return false;
 	}
-
 
 	/**
 	 * Checks if a CharSequence is empty ("") or null.

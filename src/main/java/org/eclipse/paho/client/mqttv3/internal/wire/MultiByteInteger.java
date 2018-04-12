@@ -33,14 +33,14 @@ public class MultiByteInteger {
 	}
 	
 	/**
-	 * @return the number of bytes read when decoding this MBI.
+	 * Returns the number of bytes read when decoding this MBI.
 	 */
 	public int getEncodedLength() {
 		return length;
 	}
 
 	/**
-	 * @return the value of this MBI.
+	 * Returns the value of this MBI.
 	 */
 	public long getValue() {
 		return value;

@@ -71,28 +71,25 @@ public abstract class MqttWireMessage {
 	/**
 	 * Sub-classes should override this to encode the message info.
 	 * Only the least-significant four bits will be used.
-	 * @return The Message information byte
 	 */
 	protected abstract byte getMessageInfo();
 	
 	/**
 	 * Sub-classes should override this method to supply the payload bytes.
-	 * @return The payload byte array
-	 * @throws MqttException if an exception occurs whilst getting the payload
 	 */
 	public byte[] getPayload() throws MqttException {
 		return new byte[0];
 	}
 	
 	/**
-	 * @return the type of the message.
+	 * Returns the type of the message.
 	 */
 	public byte getType() {
 		return type;
 	}
 	
 	/**
-	 * @return the MQTT message ID.
+	 * Returns the MQTT message ID.
 	 */
 	public int getMessageId() {
 		return msgId;
@@ -100,7 +97,6 @@ public abstract class MqttWireMessage {
 	
 	/**
 	 * Sets the MQTT message ID.
-	 * @param msgId the MQTT message ID
 	 */
 	public void setMessageId(int msgId) {
 		this.msgId = msgId;
@@ -138,7 +134,7 @@ public abstract class MqttWireMessage {
 
 
 	/**
-	 * @return whether or not this message needs to include a message ID.
+	 * Returns whether or not this message needs to include a message ID.
 	 */
 	public boolean isMessageIdRequired() {
 		return true;
@@ -257,9 +253,6 @@ public abstract class MqttWireMessage {
 	
 	/**
 	 * Decodes an MQTT Multi-Byte Integer from the given stream.
-	 * @param in the input stream 
-	 * @return {@link MultiByteInteger}
-	 * @throws IOException if an exception occurs when reading the input stream
 	 */
 	protected static MultiByteInteger readMBI(DataInputStream in) throws IOException {
 		byte digit;
