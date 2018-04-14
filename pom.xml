@@ -7,8 +7,8 @@
 		<version>1.1.0</version>
 	</parent>
 	<groupId>com.github.PeelTechnologies</groupId>
-	<artifactId>org.eclipse.paho.client.mqttv3</artifactId>
-	<version>1.1.0_3</version>
+	<artifactId>paho.client.mqttv3</artifactId>
+	<version>1.1.0_4</version>
 	<packaging>eclipse-plugin</packaging>
 	<profiles>
 		<profile>
